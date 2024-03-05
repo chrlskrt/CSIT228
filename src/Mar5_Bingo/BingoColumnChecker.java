@@ -5,7 +5,7 @@ public class BingoColumnChecker extends BingoChecker{
 
     public BingoColumnChecker(BingoCard card, int colToCheck) {
         super(card);
-        this.colToCheck = colToCheck;
+        this.colToCheck = colToCheck-1;
     }
 
     @Override
