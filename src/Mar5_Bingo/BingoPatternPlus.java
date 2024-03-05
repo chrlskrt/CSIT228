@@ -13,10 +13,15 @@ public class BingoPatternPlus extends BingoPattern{
 
         for (Thread bc: bingoCheckers){
             bc.start();
+            try {
+                bc.join();
+            } catch (InterruptedException e) {
+                System.out.println("Card [" + toCheck.id + "] loses");
+            }
         }
 
         BingoGame.isBingo = true;
-        System.out.println("Card [" + toCheck.id + "] completes pattern");
+        System.out.println("Card [" + toCheck.id + "] completes Plus pattern");
         System.out.println(toCheck);
     }
 }

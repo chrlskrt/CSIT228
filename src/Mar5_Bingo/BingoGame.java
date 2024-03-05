@@ -25,13 +25,22 @@ public class BingoGame implements Runnable {
             System.out.println(card);
         }
 
-        // TODO create your checker threads per card
-        Thread[] checkerThrds = new Thread[cnt];
-        for (int i = 0; i < cnt; i++) {
-            checkerThrds[i] = new Thread(new BingoRowChecker(cards.get(i), 2));
-            checkerThrds[i].start();
+//        // TODO create your checker threads per card
+//        Thread[] checkerThrds = new Thread[cnt];
+//        for (int i = 0; i < cnt; i++) {
+//            checkerThrds[i] = new Thread(new BingoRowChecker(cards.get(i), 2));
+//            checkerThrds[i].start();
+//        }
+
+        bingoPatterns = new ArrayList<>();
+        for (int i = 0; i < cnt; i++){
+            bingoPatterns.add(new Thread(new BingoPatternHash(cards.get(i))));
+            bingoPatterns.add(new Thread(new BingoPatternPlus(cards.get(i))));
         }
 
+        for (Thread bp: bingoPatterns){
+            bp.start();
+        }
 
         result[0] = true;
 
@@ -63,6 +72,10 @@ public class BingoGame implements Runnable {
         }
 
         printBingoRes();
+
+        for (Thread t: bingoPatterns){
+            t.interrupt();
+        }
     }
 
     private void printBingoRes() {
